@@ -22,8 +22,8 @@ class MaterialInput extends Component<Props, any> {
         super(props);
         this.state = {
             focused: false,
-            labelTop: new Animated.Value(12),
-            labelSize: new Animated.Value(16)
+            labelTop: new Animated.Value(15),
+            labelSize: new Animated.Value(14)
         }
     }
 
@@ -42,7 +42,9 @@ class MaterialInput extends Component<Props, any> {
             value = '',
             label = '',
             onChangeText = () => { },
-            inputProps = {}
+            inputProps = {},
+            size=40,
+            multiline=false
         } = this.props;
         return (
             <View style={styles.wrapper}>
@@ -51,8 +53,9 @@ class MaterialInput extends Component<Props, any> {
                     ref={ref => this.inputRef = ref}
                     value={value}
                     placeholder={label}
+                    multiline={multiline}
                     onChangeText={this.handleOnChangeText}
-                    style={[styles.input, inputProps.style]}
+                    style={[styles.input, inputProps.style,{height:size}]}
                 />
                 
             </View>
@@ -64,7 +67,6 @@ const styles = StyleSheet.create({
     wrapper: {
         borderWidth: 1,
         borderColor: '#AAA',
-        height: 45,
         borderRadius: 4,
         marginHorizontal: 15,
         marginTop: 2,

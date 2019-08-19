@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import {
-    View, StyleSheet, Text, ActivityIndicator,
+    View, StyleSheet, Text, Image,Dimensions
 } from 'react-native';
 import * as Keychain from 'react-native-keychain';
 
 import Screens from '../commons/constants/Screens';
-
+import Assets from '../assets/Assets';
 class StartScreen extends Component {
 
     componentDidMount() {
@@ -18,9 +18,13 @@ class StartScreen extends Component {
          */
         try {
             const credentials = await Keychain.getGenericPassword();
+            console.log(credentials)
             if (credentials) {
                 // TODO: Validate user, and password (can be token) against server
-                this.navigate(Screens.main.HomeScreen);
+                setTimeout(() => {
+                    this.navigate(Screens.main.HomeScreen);
+                    // this.navigate(Screens.main.HomeScreen);
+                }, 1500);
             }
             else {
                 setTimeout(() => {
@@ -42,18 +46,32 @@ class StartScreen extends Component {
     render() {
         return (
             <View style={styles.wrapper}>
-                <ActivityIndicator animating />
+            {/* <View style={{marginTop:0}}>
+                 <Image source={Assets.LOGO} style={styles.logo} />
+            </View> */}
+            {/* <View > */}
+               <Image source={Assets.loading} style={{width: width / 3,height: width / 3}}/>
+            {/* </View> */}
             </View>
         );
     }
 }
-
+const logoWidth = 207
+const logoHeight = 55;
+const { height, width } = Dimensions.get('window');
 const styles = StyleSheet.create({
     wrapper: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-    }
+        // marginTop:-200
+    },
+    wrapper1: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    logo: { height: width / 1 * 65 / logoWidth, width: width / 2, alignSelf: 'center', marginTop: '20%', marginBottom: '5%' },
 })
 
 export default StartScreen;

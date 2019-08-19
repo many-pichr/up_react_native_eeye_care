@@ -13,6 +13,9 @@ import RegisterScreen from "./screens/auth/RegisterScreen";
 import HomeScreen from "./screens/main/HomeScreen";
 import Screens from "./commons/constants/Screens";
 import UserProfileScreen from './screens/main/UserProfileScreen';
+import PatientScreen from './screens/main/PatientScreen';
+import AddPatient from './screens/main/AddPatient';
+import EditPatient from './screens/main/EditPatient';
 import SettingScreen from './screens/main/SettingScreen';
 import CustomMainDrawer from './components/Sidebar/CustomMainDrawer';
 
@@ -24,26 +27,125 @@ import CustomMainDrawer from './components/Sidebar/CustomMainDrawer';
 const AuthStack = createStackNavigator({
     [Screens.auth.LoginScreen]: {
         screen: LoginScreen,
+        navigationOptions:{header:null}
     },
     [Screens.auth.RegisterScreen]: {
         screen: RegisterScreen,
+        navigationOptions: ({ navigation }) => ({
+            title: 'Create New Account',
+            headerStyle: {
+                backgroundColor: '#0767DB',
+                
+              },
+              headerTitleStyle: {
+                fontWeight: 'bold',
+                color:'white'
+              },
+            headerLeft: (
+                <TouchableOpacity
+                    onPress={() => { navigation.goBack() }}
+                    style={{ paddingHorizontal: 15 }}>
+                    <MaterialIcons name="arrow-back" color='white' size={30} />
+                </TouchableOpacity>
+            )
+        })
     }
-}, { defaultNavigationOptions: { header: null } });
+});
 
 const MainStack = createStackNavigator({
     [Screens.main.HomeScreen]: {
         screen: HomeScreen,
         navigationOptions: ({ navigation }) => ({
             title: 'Home',
+            headerStyle: {
+                backgroundColor: '#2d358e',
+                
+              },
+              headerTitleStyle: {
+                fontWeight: 'bold',
+                color:'white'
+              },
             headerLeft: (
                 <TouchableOpacity
                     onPress={() => { navigation.openDrawer() }}
                     style={{ paddingHorizontal: 15 }}>
-                    <MaterialIcons name="menu" size={20} />
+                    <MaterialIcons name="menu" color='white' size={30} />
                 </TouchableOpacity>
             )
         })
     },
+});
+const PatientStack = createStackNavigator({
+    [Screens.patien.PatientScreen]: {
+        screen: PatientScreen,
+        navigationOptions: ({ navigation }) => ({
+            title: 'Patient List',
+            headerStyle: {
+                backgroundColor: '#2d358e',
+
+            },
+            headerTitleStyle: {
+                fontWeight: 'bold',
+                color:'white'
+            },
+            headerLeft: (
+                <TouchableOpacity
+                    onPress={() => { navigation.openDrawer() }}
+                    style={{ paddingHorizontal: 15 }}>
+                    <MaterialIcons name="menu" color='white' size={30} />
+                </TouchableOpacity>
+            ),
+            headerRight: (
+                <TouchableOpacity
+                    onPress={() => { navigation.navigate(Screens.patien.AddPatient) }}
+                    style={{ paddingHorizontal: 15 }}>
+                    <MaterialIcons name="person-add" color='white' size={30} />
+                </TouchableOpacity>
+            )
+        })
+    },
+    [Screens.patien.AddPatient]: {
+        screen: AddPatient,
+        navigationOptions: ({ navigation }) => ({
+            title: 'Add New Patient',
+            headerStyle: {
+                backgroundColor: '#2d358e',
+
+            },
+            headerTitleStyle: {
+                fontWeight: 'bold',
+                color:'white'
+            },
+            headerLeft: (
+                <TouchableOpacity
+                    onPress={() => { navigation.goBack() }}
+                    style={{ paddingHorizontal: 15 }}>
+                    <MaterialIcons name="arrow-back" color='white' size={30} />
+                </TouchableOpacity>
+            )
+        })
+    },
+    [Screens.patien.EditPatient]: {
+        screen: EditPatient,
+        navigationOptions: ({ navigation }) => ({
+            title: 'Edit Patient',
+            headerStyle: {
+                backgroundColor: '#2d358e',
+
+            },
+            headerTitleStyle: {
+                fontWeight: 'bold',
+                color:'white'
+            },
+            headerLeft: (
+                <TouchableOpacity
+                    onPress={() => { navigation.goBack() }}
+                    style={{ paddingHorizontal: 15 }}>
+                    <MaterialIcons name="arrow-back" color='white' size={30} />
+                </TouchableOpacity>
+            )
+        })
+    }
 });
 const UserProfileStack = createStackNavigator({
     UserProfileScreen: {
@@ -81,6 +183,13 @@ const DrawerNav = createDrawerNavigator({
         navigationOptions: {
             drawerLabel: 'Home',
             drawerIcon: ({ focused, tintColor }) => (<MaterialIcons color={tintColor} name="dashboard" size={20} />)
+        }
+    },
+    SchedulerScreen: {
+        screen: MainStack,
+        navigationOptions: {
+            drawerLabel: 'SCHEDULER',
+            drawerIcon: ({ focused, tintColor }) => (<MaterialIcons color={tintColor} name="today" size={20} />)
         }
     },
     UserProfileScreen: {

@@ -187,7 +187,7 @@ class RegisterScreen extends Component {
                                 onPress={this.handleSignup}
                                 hitSlop={{ bottom: 15, top: 15 }}
                             >
-                               {loading? <ActivityIndicator animating color='white' />: <Text style={styles.buttonTitle}>Sing Up Now"</Text>}
+                               {loading? <ActivityIndicator animating color='white' />: <Text style={styles.buttonTitle}>Sing Up Now</Text>}
                             </TouchableOpacity>
                         </View>
                         <View style={styles.footer}>
@@ -207,16 +207,8 @@ class RegisterScreen extends Component {
         } = this.state;
         return (
             <SafeAreaView style={{ flex: 1 }}>
-                <View style={styles.headerBar}>
-                    <TouchableOpacity
-                        onPress={this.navigateBack}
-                        style={styles.buttonBack}
-                    >
-                        <Ionicons name="md-arrow-round-back" size={25} color="grey" />
-                    </TouchableOpacity>
-                    <Text style={styles.header}>Create New Account</Text>
-                </View>
-                <View style={{ flex: 1 }}>
+                
+                <View style={{ flex: 1, marginTop: 20 }}>
                         {this.renderForm1()}
                    
                 </View>

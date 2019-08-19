@@ -3,6 +3,8 @@ package com.mobilereactnative;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.reactnative.ivpusic.imagepicker.PickerPackage;
+import com.kishanjvaghela.cardview.RNCardViewPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 import com.oblador.keychain.KeychainPackage;
@@ -26,6 +28,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new PickerPackage(),
+            new RNCardViewPackage(),
             new VectorIconsPackage(),
             new RNGestureHandlerPackage(),
             new KeychainPackage()

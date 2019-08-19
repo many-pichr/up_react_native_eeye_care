@@ -6,6 +6,11 @@ const Screens = {
     },
     main: {
         HomeScreen: 'HomeScreen'
+    },
+    patien: {
+        PatientScreen: 'PatientScreen',
+        EditPatient: 'EditPatient',
+        AddPatient: 'AddPatient',
     }
 }
 export default Screens;

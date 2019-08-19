@@ -1,12 +1,38 @@
 import ApiRequest from "../commons/utils/ApiRequest";
 
 export default {
-    findByEmail: (email) => {
-        const URL = `/api/v1/user/email/${email}`;
-        return ApiRequest.withoutAuth.get(URL);
+
+    getPatient: (auth) =>{
+        console.log("auth==>",auth)
+        const config = {
+            headers: {
+                Authorization: "Bearer "+auth
+            }
+        }
+        const URL = `/api/user/get-patient`;
+        return ApiRequest.withoutAuth.get(URL, config);
     },
-    CreateUser: (d) => {
-        console.log("data===>",d)
+    getUserInfo: (auth) =>{
+        console.log("auth==>",auth)
+        const config = {
+            headers: {
+                Authorization: "Bearer "+auth
+            }
+        }
+        const URL = `/api/user/get-user-info`;
+        return ApiRequest.withoutAuth.get(URL, config);
+    },
+    deleteUser: (auth,id) =>{
+        console.log(id,"auth==>",auth)
+        const config = {
+            headers: {
+                Authorization: "Bearer "+auth
+            }
+        }
+        const URL = `/api/user/delete/${id}`;
+        return ApiRequest.withoutAuth.delete(URL, config);
+    },
+    CreateUser: (d,img) => {
         const config = {
             headers: {
                 'content-type': 'application/json'
@@ -17,7 +43,7 @@ export default {
             "id": 1,
             "name": d.fullname,
             "gender": d.gender,
-            "image": "",
+            "image": img,
             "dob": d.dob,
             "phone": d.phone,
             "address": d.address,
