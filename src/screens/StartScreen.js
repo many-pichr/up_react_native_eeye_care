@@ -23,7 +23,6 @@ class StartScreen extends Component {
                 // TODO: Validate user, and password (can be token) against server
                 setTimeout(() => {
                     this.navigate(Screens.main.HomeScreen);
-                    // this.navigate(Screens.main.HomeScreen);
                 }, 1500);
             }
             else {
@@ -46,12 +45,7 @@ class StartScreen extends Component {
     render() {
         return (
             <View style={styles.wrapper}>
-            {/* <View style={{marginTop:0}}>
-                 <Image source={Assets.LOGO} style={styles.logo} />
-            </View> */}
-            {/* <View > */}
                <Image source={Assets.loading} style={{width: width / 3,height: width / 3}}/>
-            {/* </View> */}
             </View>
         );
     }

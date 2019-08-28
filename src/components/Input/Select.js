@@ -35,8 +35,8 @@ class Select extends React.PureComponent<Props, any> {
         this.state = {
             option: null,
             focused: false,
-            labelTop: new Animated.Value(12),
-            labelSize: new Animated.Value(16)
+            labelTop: new Animated.Value(10),
+            labelSize: new Animated.Value(14)
         }
     }
 
@@ -78,7 +78,7 @@ class Select extends React.PureComponent<Props, any> {
     }
 
     onInputPress = () => {
-        this.setState({ focused: true });
+        this.props.handleOpen();
         this.animateLabelUp()
     }
 
@@ -102,18 +102,23 @@ class Select extends React.PureComponent<Props, any> {
 
     render() {
         const {
-            focused, option,
+            focused,
             labelTop, labelSize
         } = this.state;
 
         const {
             value = '',
             label = '',
+            option=[],
+            open=false,
+            handleClose,
+            onOptionPress,
             onChange = () => { },
             inputProps = {},
             options = [],
+            edit=false
         } = this.props;
-        console.log(options, value, label)
+        if(edit) this.animateLabelUp()
         return (
             <View style={styles.wrapper}>
                 <TouchableOpacity onPress={this.onInputPress} style={styles.input} >
@@ -131,11 +136,11 @@ class Select extends React.PureComponent<Props, any> {
                     </TouchableWithoutFeedback>
                 </Animated.View>
                 <Modal
-                    isVisible={focused}
+                    isVisible={open}
                     animationIn="fadeIn"
                     animationOut="fadeOut"
-                    onDismiss={this.closeModal}
-                    onBackdropPress={this.closeModal}
+                    onDismiss={handleClose}
+                    onBackdropPress={handleClose}
                     style={{ flex: 1 }}
                 >
                     <Col style={{ maxHeight: '80%', backgroundColor: 'white', borderRadius: 5, }} centerVertical>
@@ -147,7 +152,7 @@ class Select extends React.PureComponent<Props, any> {
                             renderItem={({ item, index }) => {
                                 console.log(item)
                                 return (
-                                    <TouchableOpacity onPress={() => this.onOptionPress(item)}>
+                                    <TouchableOpacity onPress={() => onOptionPress(item)}>
                                         <Row
                                             alignMiddle
                                             paddingVertical={15}
@@ -175,10 +180,10 @@ const styles = StyleSheet.create({
     wrapper: {
         borderWidth: 1,
         borderColor: '#AAA',
-        height: 45,
+        height: 40,
+        width:'100%',
         borderRadius: 4,
-        marginHorizontal: 15,
-        marginTop: 15,
+        marginHorizontal: 0,
         justifyContent: 'center',
     },
     input: { paddingHorizontal: 10, flex: 1, justifyContent: 'center' },

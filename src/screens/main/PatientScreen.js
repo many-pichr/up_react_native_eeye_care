@@ -10,7 +10,7 @@ import {
     ActivityIndicator,
     TouchableOpacity,
     TextInput,
-    Dimensions
+    Dimensions, AsyncStorage
 } from 'react-native'
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import CardView from "react-native-cardview";
@@ -43,6 +43,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     buttonImage: {
+        borderRadius:5,
         width: 100,
         height: 100,
     },
@@ -78,11 +79,12 @@ const styles = StyleSheet.create({
 
     ImageStyle: {
         marginLeft: 10,
+        borderRadius:5,
         resizeMode: 'stretch',
         alignItems: 'center',
     },
     input: { height: 40,width:'90%', paddingHorizontal: 10 },
-    cardSmallStyleMargin:{flexDirection: 'row',width: '95%', height: 100,backgroundColor: 'white',margin:8,alignSelf: 'center'},
+    cardSmallStyleMargin:{flexDirection: 'row',width: '95%', height: 100,backgroundColor:'rgba(45,53,142,0.06)',margin:8,alignSelf: 'center'},
 })
 
 export default class Patient extends Component {
@@ -92,28 +94,40 @@ export default class Patient extends Component {
             defaultValue: 'Select...',
             auth:[],
             loading:true,
-            patientList:[]
+            patientList:[],
+            data:[]
         }
 
     }
     componentWillMount() {
-    this.getAuth()
+    this.getPatients()
     }
     componentDidMount() {
-
+    this._retrieveData();
     }
 
-    getAuth = async ()=>{
-
+    _retrieveData = async () => {
+        try {
+            const value = await AsyncStorage.getItem('@userinfo');
+            if (value !== null) {
+                // We have data!!
+                console.log("value==>",value);
+                this.setState({data:JSON.parse(value)})
+            }
+        } catch (error) {
+            // Error retrieving data
+        }
+    };
+    getPatients = async ()=>{
+            this.setState({loading:true})
             const credentials = await Keychain.getGenericPassword();
             if (credentials) {
-                console.log(JSON.parse(credentials.password))
                 const auth = JSON.parse(credentials.password);
                 const {data} = await Request.getPatient(auth.accessToken).then((response) => response.data)
                     .then((responseData) => {
                         return responseData;
                     })
-                this.setState({patientList: data,loading:false})
+                this.setState({patientList: data,loading:false,auth:auth})
             }
             else {
                 this.props.navigation.navigate(Screens.auth.LoginScreen)
@@ -134,8 +148,8 @@ export default class Patient extends Component {
                 'Congratulation!',
                 'User Deleted Successfully',
                 [
-                    {text: 'Go to List', onPress: () => {
-                            this.getAuth()
+                    {text: 'OK', onPress: () => {
+                            this.getPatients()
                         }},
                 ],
                 {cancelable: false},
@@ -167,11 +181,56 @@ export default class Patient extends Component {
             {cancelable: false},
         );
     }
-    handleEdit =(i)=> {
-        this.props.navigation.navigate(Screens.patien.EditPatient);
+    handleEdit =(item)=> {
+        this.props.navigation.push(Screens.patien.EditPatient,{item:item, auth: this.state.auth});
     }
+    handleProfile =(item)=> {
+        this.props.navigation.push(Screens.patien.UserProfile,{item:item, auth: this.state.auth});
+    }
+    _renderItem = ({ item }) => (
+       <CardView
+            cardElevation={5}
+            cardMaxElevation={5}
+            cornerRadius={5}
+            style={[styles.cardSmallStyleMargin,{display: this.state.data.id==item.id?'none':''}]}
+        >
+           <View style={{ flex: 1 }}>
+                <Image
+                    source={{uri:item.image==''|| item.image==null?avatar:("data:image/jpg;base64,"+item.image)}}
+                    style={styles.buttonImage}
+                />
+            </View>
+
+            <View style={{ flex: 1, flexBasis: 150, padding: 10 }}>
+                <Text>Name: {item.name}</Text>
+                <Text>Email: {item.email}</Text>
+                <Text>Phone: {item.phone}</Text>
+
+                <View style={{flexDirection: 'row',width:'97%',height:25, justifyContent: 'flex-start',marginTop:10}}>
+                    <TouchableOpacity style={styles.actionBtn} onPress={() =>this.handleProfile(item)}>
+                        <Text style={[styles.cardButton]}>
+                            View
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.actionBtn}  onPress={() =>this.handleEdit(item)}>
+                        <Text style={[styles.cardButton]}>
+                            Edit
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.actionBtn} onPress={() =>this.handleDelete(item.id)}>
+                        <Text style={[styles.cardButton]}>
+                            Delete
+                        </Text>
+                    </TouchableOpacity>
+
+                </View>
+
+            </View>
+        </CardView>
+    )
     render() {
-        console.log("pat==>",this.state.patientList)
+       const {data} = this.state;
+       console.log(this.state.patientList,"my data",data)
         return (
             <View style={{ flex: 1, backgroundColor: 'white',justifyContent:'center' }} >
 
@@ -203,48 +262,7 @@ export default class Patient extends Component {
                 (<FlatList
                     data={this.state.patientList}
                     keyExtractor={(i) => i}
-                    renderItem={({ item }) =>
-
-                        <CardView
-                        cardElevation={5}
-                        cardMaxElevation={5}
-                        cornerRadius={5}
-                        style={styles.cardSmallStyleMargin}
-                        >
-                            <View style={{ flex: 1 }}>
-                                <Image
-                                    source={{uri:item.image==''|| item.image==null?avatar:("data:image/jpg;base64,"+item.image)}}
-                                    style={styles.buttonImage}
-                                />
-                            </View>
-
-                            <View style={{ flex: 1, flexBasis: 150, padding: 10 }}>
-                                <Text>Name: {item.name}</Text>
-                                <Text>Email: {item.email}</Text>
-                                <Text>Phone: {item.phone}</Text>
-
-                                <View style={{flexDirection: 'row',width:'97%',height:25, justifyContent: 'flex-start',marginTop:10}}>
-                                    <TouchableOpacity style={styles.actionBtn}>
-                                        <Text style={[styles.cardButton]}>
-                                            View
-                                        </Text>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity style={styles.actionBtn}  onPress={() =>this.handleEdit(item.id)}>
-                                        <Text style={[styles.cardButton]}>
-                                            Edit
-                                        </Text>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity style={styles.actionBtn} onPress={() =>this.handleDelete(item.id)}>
-                                        <Text style={[styles.cardButton]}>
-                                            Delete
-                                        </Text>
-                                    </TouchableOpacity>
-
-                                </View>
-
-                        </View>
-                        </CardView>
-                    }
+                    renderItem={this._renderItem}
                 />)}
             </View>
         )

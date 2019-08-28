@@ -126,11 +126,12 @@ class LoginScreen extends Component {
         return (
             <SafeAreaView stle={styles.wrapper}>
                 <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'position' : null}>
+                    <Image style={styles.background} source={Assets.upbg} />
                     <Image source={Assets.LOGO} style={styles.logo} />
                     <Text style={styles.header}>Login with Username and Password</Text>
                     <View style={styles.container}>
                     <View style={styles.SectionStyle}>
-                         <MaterialIcons style={styles.ImageStyle} name="email" size={30} color="gray"/>
+                         <MaterialIcons style={styles.ImageStyle} name="person" size={30} color="gray"/>
                         <TextInput
                             value={username}
                             placeholder="Username"
@@ -184,7 +185,7 @@ const { height, width } = Dimensions.get('window');
 const styles = StyleSheet.create({
     wrapper: { flex: 1, backgroundColor: '#808080' },
     container: { paddingHorizontal: '10%', paddingVertical: 0 },
-    logo: { height: width / 1 * 65 / logoWidth, width: width / 2, alignSelf: 'center', marginTop: '20%', marginBottom: '5%' },
+    logo: { height: width / 1 * 65 / logoWidth, width: width / 2, alignSelf: 'center', marginTop: '5%', marginBottom: '5%' },
     header: { color: 'grey', textAlign: 'center', marginBottom: 15 },
     input: { height: 40,width:'90%', paddingHorizontal: 10 },
     button: { backgroundColor: '#0767DB', paddingVertical: 10, borderRadius: 4,  },
@@ -217,5 +218,6 @@ const styles = StyleSheet.create({
         resizeMode: 'stretch',
         alignItems: 'center',
       },
+    background: { height: 55, width: 250, alignSelf: 'center', marginTop:30, },
 })
 export default LoginScreen;

@@ -10,6 +10,8 @@ const Assets = {
     menu2: require('./images/Doctor.jpg'),
     menu3: require('./images/Patient1.jpg'),
     menu4: require('./images/Prescription1.png'),
-    upbg: require('./images/upbg.png')
+    upbg: require('./images/upbg.png'),
+    bgblur: require('./images/bg-blur.png'),
+    upload: require('./images/upload.png'),
 }
 export default Assets;

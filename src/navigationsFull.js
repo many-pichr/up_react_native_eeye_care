@@ -14,15 +14,18 @@ import HomeScreen from "./screens/main/HomeScreen";
 import Screens from "./commons/constants/Screens";
 import UserProfileScreen from './screens/main/UserProfileScreen';
 import PatientScreen from './screens/main/PatientScreen';
+import UserProfile from './screens/main/UserProfile';
+import DoctorScreen from './screens/main/DoctorScreen';
+import AddDoctor from './screens/main/AddDoctor';
+import Appointment from './screens/main/Appointment';
+import ViewAppointment from './screens/main/ViewAppointment';
+import ViewDoctor from './screens/main/ViewDoctor';
+import EditDoctor from './screens/main/EditDoctor';
 import AddPatient from './screens/main/AddPatient';
-import SettingScreen from './screens/main/SettingScreen';
 import CustomMainDrawer from './components/Sidebar/CustomMainDrawer';
 import EditPatient from "./screens/main/EditPatient";
-
-/**
- * Full Navigation Document
- * https://reactnavigation.org/docs/en/getting-started.html
- */
+import AddAppointment from "./screens/main/AddAppointment";
+import EditAppointment from "./screens/main/EditAppointment";
 
 const AuthStack = createStackNavigator({
     [Screens.auth.LoginScreen]: {
@@ -75,6 +78,100 @@ const MainStack = createStackNavigator({
         })
     },
 });
+const AppoiStake = createStackNavigator({
+    [Screens.appointment.Appointment]: {
+        screen: Appointment,
+        navigationOptions: ({ navigation }) => ({
+            title: 'Appointment',
+            headerStyle: {
+                backgroundColor: '#2d358e',
+
+            },
+            headerTitleStyle: {
+                fontWeight: 'bold',
+                color:'white'
+            },
+            headerLeft: (
+                <TouchableOpacity
+                    onPress={() => { navigation.openDrawer() }}
+                    style={{ paddingHorizontal: 15 }}>
+                    <MaterialIcons name="menu" color='white' size={30} />
+                </TouchableOpacity>
+            ),
+            headerRight: (
+                <TouchableOpacity
+                    onPress={() => { navigation.navigate(Screens.appointment.AddAppointment) }}
+                    style={{ paddingHorizontal: 15 }}>
+                    <MaterialIcons name="add" color='white' size={30} />
+                </TouchableOpacity>
+            )
+        })
+    },
+    [Screens.appointment.AddAppointment]: {
+        screen: AddAppointment,
+        navigationOptions: ({ navigation }) => ({
+            title: 'Add New Appointment',
+            headerStyle: {
+                backgroundColor: '#2d358e',
+
+            },
+            headerTitleStyle: {
+                fontWeight: 'bold',
+                color:'white'
+            },
+            headerLeft: (
+                <TouchableOpacity
+                    onPress={() => { navigation.goBack() }}
+                    style={{ paddingHorizontal: 15 }}>
+                    <MaterialIcons name="arrow-back" color='white' size={30} />
+                </TouchableOpacity>
+            )
+        })
+    },
+    [Screens.appointment.ViewAppointment]: {
+        screen: ViewAppointment,
+        navigationOptions: ({ navigation }) => ({
+            title: 'View Appointment',
+            headerStyle: {
+                backgroundColor: '#2d358e',
+
+            },
+            headerTitleStyle: {
+                fontWeight: 'bold',
+                color:'white'
+            },
+            headerLeft: (
+                <TouchableOpacity
+                    onPress={() => { navigation.goBack() }}
+                    style={{ paddingHorizontal: 15 }}>
+                    <MaterialIcons name="arrow-back" color='white' size={30} />
+                </TouchableOpacity>
+            ),
+
+        })
+    },
+    [Screens.appointment.EditAppointment]: {
+    screen: EditAppointment,
+        navigationOptions: ({ navigation }) => ({
+        title: 'Edit Appointment',
+        headerStyle: {
+            backgroundColor: '#2d358e',
+
+        },
+        headerTitleStyle: {
+            fontWeight: 'bold',
+            color:'white'
+        },
+        headerLeft: (
+            <TouchableOpacity
+                onPress={() => { navigation.goBack() }}
+                style={{ paddingHorizontal: 15 }}>
+                <MaterialIcons name="arrow-back" color='white' size={30} />
+            </TouchableOpacity>
+        )
+    })
+},
+});
 const PatientStack = createStackNavigator({
     [Screens.patien.PatientScreen]: {
         screen: PatientScreen,
@@ -97,7 +194,7 @@ const PatientStack = createStackNavigator({
             ),
             headerRight: (
                 <TouchableOpacity
-                    onPress={() => { navigation.navigate(Screens.patien.AddPatient) }}
+                    onPress={() => { navigation.push(Screens.patien.AddPatient) }}
                     style={{ paddingHorizontal: 15 }}>
                     <MaterialIcons name="person-add" color='white' size={30} />
                 </TouchableOpacity>
@@ -145,6 +242,27 @@ const PatientStack = createStackNavigator({
                 </TouchableOpacity>
             )
         })
+    },
+    [Screens.patien.UserProfile]: {
+        screen: UserProfile,
+        navigationOptions: ({ navigation }) => ({
+            title: 'Patient Detail',
+            headerStyle: {
+                backgroundColor: '#2d358e',
+
+            },
+            headerTitleStyle: {
+                fontWeight: 'bold',
+                color:'white'
+            },
+            headerLeft: (
+                <TouchableOpacity
+                    onPress={() => { navigation.goBack() }}
+                    style={{ paddingHorizontal: 15 }}>
+                    <MaterialIcons name="arrow-back" color='white' size={30} />
+                </TouchableOpacity>
+            )
+        })
     }
 });
 const UserProfileStack = createStackNavigator({
@@ -152,30 +270,115 @@ const UserProfileStack = createStackNavigator({
         screen: UserProfileScreen,
         navigationOptions: ({ navigation }) => ({
             title: 'User Profile',
+            headerStyle: {
+                backgroundColor: '#2d358e',
+
+            },
+            headerTitleStyle: {
+                fontWeight: 'bold',
+                color:'white'
+            },
             headerLeft: (
                 <TouchableOpacity
                     onPress={() => { navigation.openDrawer() }}
                     style={{ paddingHorizontal: 15 }}>
-                    <MaterialIcons name="menu" size={20} />
+                    <MaterialIcons name="menu" size={30} color={"white"} />
                 </TouchableOpacity>
             )
         })
     },
 });
-const SettingStack = createStackNavigator({
-    SettingScreen: {
-        screen: SettingScreen,
+const DoctorStake = createStackNavigator({
+    [Screens.doctor.DoctorScreen]: {
+        screen: DoctorScreen,
         navigationOptions: ({ navigation }) => ({
-            title: 'Settings',
+            title: 'Doctor List',
+            headerStyle: {
+                backgroundColor: '#2d358e',
+
+            },
+            headerTitleStyle: {
+                fontWeight: 'bold',
+                color:'white'
+            },
             headerLeft: (
                 <TouchableOpacity
                     onPress={() => { navigation.openDrawer() }}
                     style={{ paddingHorizontal: 15 }}>
-                    <MaterialIcons name="menu" size={20} />
+                    <MaterialIcons name="menu" color='white' size={30} />
+                </TouchableOpacity>
+            ),
+            headerRight: (
+                <TouchableOpacity
+                    onPress={() => { navigation.navigate(Screens.doctor.AddDoctor) }}
+                    style={{ paddingHorizontal: 15 }}>
+                    <MaterialIcons name="person-add" color='white' size={30} />
                 </TouchableOpacity>
             )
         })
     },
+    [Screens.doctor.AddDoctor]: {
+        screen: AddDoctor,
+        navigationOptions: ({ navigation }) => ({
+            title: 'Add New Doctor',
+            headerStyle: {
+                backgroundColor: '#2d358e',
+
+            },
+            headerTitleStyle: {
+                fontWeight: 'bold',
+                color:'white'
+            },
+            headerLeft: (
+                <TouchableOpacity
+                    onPress={() => { navigation.goBack() }}
+                    style={{ paddingHorizontal: 15 }}>
+                    <MaterialIcons name="arrow-back" color='white' size={30} />
+                </TouchableOpacity>
+            )
+        })
+    },
+    [Screens.doctor.EditDoctor]: {
+        screen: EditDoctor,
+        navigationOptions: ({ navigation }) => ({
+            title: 'Edit Doctor',
+            headerStyle: {
+                backgroundColor: '#2d358e',
+
+            },
+            headerTitleStyle: {
+                fontWeight: 'bold',
+                color:'white'
+            },
+            headerLeft: (
+                <TouchableOpacity
+                    onPress={() => { navigation.goBack() }}
+                    style={{ paddingHorizontal: 15 }}>
+                    <MaterialIcons name="arrow-back" color='white' size={30} />
+                </TouchableOpacity>
+            )
+        })
+    },[Screens.doctor.ViewDoctor]: {
+    screen: ViewDoctor,
+        navigationOptions: ({ navigation }) => ({
+        title: 'Doctor Detail',
+        headerStyle: {
+            backgroundColor: '#2d358e',
+
+        },
+        headerTitleStyle: {
+            fontWeight: 'bold',
+            color:'white'
+        },
+        headerLeft: (
+            <TouchableOpacity
+                onPress={() => { navigation.goBack() }}
+                style={{ paddingHorizontal: 15 }}>
+                <MaterialIcons name="arrow-back" color='white' size={30} />
+            </TouchableOpacity>
+        )
+    })
+}
 });
 const DrawerNav = createDrawerNavigator({
     HomeScreen: {
@@ -193,16 +396,16 @@ const DrawerNav = createDrawerNavigator({
         }
     },
     DotorScreen: {
-        screen: MainStack,
+        screen: DoctorStake,
         navigationOptions: {
             drawerLabel: 'Doctors',
             drawerIcon: ({ focused, tintColor }) => (<MaterialIcons color={tintColor} name="person-add" size={20} />)
         }
     },
-    SchedulerScreen: {
-        screen: MainStack,
+    Appointment: {
+        screen: AppoiStake,
         navigationOptions: {
-            drawerLabel: 'SCHEDULER',
+            drawerLabel: 'Appointment',
             drawerIcon: ({ focused, tintColor }) => (<MaterialIcons color={tintColor} name="today" size={20} />)
         }
     },
@@ -211,13 +414,6 @@ const DrawerNav = createDrawerNavigator({
         navigationOptions: {
             drawerLabel: 'Profile',
             drawerIcon: ({ focused, tintColor }) => (<MaterialIcons color={tintColor} name="person" size={23} />)
-        }
-    },
-    SettingScreen: {
-        screen: SettingStack,
-        navigationOptions: {
-            drawerLabel: 'Settings',
-            drawerIcon: ({ focused, tintColor }) => (<MaterialIcons color={tintColor} name="settings" size={23} />)
         }
     }
 }, {

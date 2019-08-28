@@ -44,8 +44,13 @@ class CustomMainDrawer extends Component {
             const value = await AsyncStorage.getItem('@userinfo');
             if (value !== null) {
                 // We have data!!
-                console.log("value==>",value);
-                this.setState({data:JSON.parse(value)})
+                if(value.status==false){
+                    Keychain.resetGenericPassword();
+                    this.props.navigation.navigate(Screens.auth.LoginScreen);
+                }else{
+                    this.setState({data:JSON.parse(value)})
+                }
+
             }
         } catch (error) {
             // Error retrieving data
@@ -54,11 +59,11 @@ class CustomMainDrawer extends Component {
     render() {
        const {data} = this.state;
        const nav = {... this.props};
-        // const role = data!=null?data.roles[0].name:'false'
-        const role = "role_admin"
+        const role = data!=null?data.roles[0].name:'false'
+        // const role = "role_admin"
         const items = [];
         nav.items.map((item, i) => {
-            if (role.toUpperCase() == 'ROLE_USER' && (i!=1 && i!=2 && i!=3)) {
+            if (role.toUpperCase() == 'ROLE_USER' && (i!=1 && i!=2)) {
                 items.push(item)
             }else if (role.toUpperCase() == 'ROLE_PM' && (i!=1 && i!=2)) {
                 items.push(item)
@@ -76,7 +81,7 @@ class CustomMainDrawer extends Component {
                     <Image style={styles.background} source={asset.upbg} />
                     <Image style={styles.profile} source={{uri:image==''|| image==null?avatar:("data:image/jpg;base64,"+image)}} />
                     <Text style={[styles.profileName, styles.textCenter]}>{data!=null?data.name:''}</Text>
-                    <Text style={[styles.profilePosition, styles.textCenter]}>Mobile Developer</Text>
+                    <Text style={[styles.profilePosition, styles.textCenter]}>Role : {role=='ROLE_USER'?"Patient":role=='ROLE_PM'?"Doctor":role=='ROLE_ADMIN'?"Administrator":""}</Text>
                     <View style={styles.separator} />
 
                     <DrawerItems {...nav} />

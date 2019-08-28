@@ -34,6 +34,8 @@ class RegisterScreen extends Component {
                 gender: '',
                 dob: '',
                 address: '',
+                role:["user"]
+
             }
         }
     }
@@ -85,7 +87,7 @@ class RegisterScreen extends Component {
     async CreateUser(){
         this.setState({loading:true})
         const {form1} = this.state;
-       const {data} = await request.CreateUser(form1).then((response) => {
+       const {data} = await request.CreateUser(form1,"").then((response) => {
             return response;
         })
         console.log(data)

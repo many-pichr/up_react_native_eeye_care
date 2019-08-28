@@ -3,7 +3,7 @@ export default {
         fullname: {
             presence: { allowEmpty: false, message: 'is required' },
             length: {
-                maximum: 10,
+                maximum: 20,
                 minimum: 4
             }
         },

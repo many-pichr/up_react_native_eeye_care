@@ -89,25 +89,9 @@ class DateInput extends React.PureComponent<Props, any> {
         } = this.props;
         return (
             <View style={styles.wrapper}>
-                {/* <TextInput
-                    {...inputProps}
-                    ref={ref => this.inputRef = ref}
-                    value={(value) ? moment(value).format(displayFormat) : ''}
-                    onFocus={this.handleInputFocus}
-                    // onChangeText={this.handleOnChange}
-                    onBlur={this.handleInputBlur}
-                    style={[styles.input, inputProps.style]}
-                /> */}
                 <TouchableOpacity onPress={this.handleInputFocus} style={[styles.input]} >
-                    <Text>{(value) ? moment(value).format(displayFormat) : ''}</Text>
+                    <Text>{(value) ? moment(value).format(displayFormat) : label}</Text>
                 </TouchableOpacity>
-                <Animated.View style={[styles.label, { top: labelTop }]}>
-                    <TouchableWithoutFeedback onPress={this.handleOnLabelPress}>
-                        <View>
-                            {typeof label === 'string' ? <Animated.Text style={{ fontSize: labelSize }}>{label}</Animated.Text> : label}
-                        </View>
-                    </TouchableWithoutFeedback>
-                </Animated.View>
 
                 <DateTimePicker
                     isVisible={focused}
